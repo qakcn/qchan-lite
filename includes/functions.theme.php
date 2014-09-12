@@ -22,6 +22,12 @@ function load_header() {
 }
 
 function load_footer() {
+    if(defined('DIRECT_AJAX') && DIRECT_AJAX) {
+        if(SERVICE=='tietuku') {
+            echo '<script type="application/javascript" src="'.get_url().theme_path().'ttk-direct-ajax.js"></script>';
+        }
+    
+    }
 	require_once ABSPATH.'/'.theme_path().'footer.php';
 }
 

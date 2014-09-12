@@ -8,7 +8,11 @@ if(!isset($_SERVER['HTTP_REFERER']) && !isset($_GET['apikey'])) {
 	exit('API cannot be direct accessed!');
 }
 if(check_apikey()) {
-	if(isset($_GET['type']) && $_GET['type']=='url') {
+	if(isset($_GET['gettoken']) && $_GET['gettoken']=='file') {
+		$result = get_token('file');
+	}else if(isset($_GET['gettoken']) && $_GET['gettoken']=='url') {
+		$result = get_token('url');
+	}else if(isset($_GET['type']) && $_GET['type']=='url') {
 		$result = url_handler();
 	}else if(isset($_GET['type']) && $_GET['type']=='file') {
 		$result = array_pop(file_handler());

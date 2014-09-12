@@ -1,7 +1,7 @@
 <?php
 class MyTieTuKu extends TTKClient{
     
-    function uploadFile($aid,$file,$filename) {
+    function uploadFile($aid,$file=null,$filename='') {
         $url = $this->upload_host;
 		$param['deadline'] = time()+$this->timeout;
 		$param['aid'] = $aid;

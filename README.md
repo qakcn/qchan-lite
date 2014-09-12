@@ -12,7 +12,7 @@ A light-weight image upload and manage program for other image host service.
 qchan-lite
 ==========
 
-由于其他图床服务的轻量级图片上传和管理程序。
+用于其他图床服务的轻量级图片上传和管理程序。
 
 ## 支持的服务
 

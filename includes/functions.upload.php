@@ -2,12 +2,17 @@
 
 // Setup path for upload
 function set_album() {
-    $album_name=Service::srv()->formatAlbubumName();
+    $album_name=Service::srv()->formatAlbumName();
     $id = Service::srv()->getAlbumByName($album_name);
     if($id===false) {
         $id = Service::srv()->createAlbum($album_name);
     }
     return $id;
+}
+
+function get_token($method) {
+	$aid = set_album();
+	return array('token'=>Service::srv()->getToken($aid, $method));
 }
 
 function set_pic_size($width_orig, $height_orig) {
@@ -33,7 +38,7 @@ function url_handler() {
     $aid = set_album();
     $url = $_POST['url'];
     $qid = $_POST['qid'];
-    if(preg_match('/^\s*https?:\/\/.+$/', $url)) {
+    if(!preg_match('/^\s*https?:\/\/.+$/', $url)) {
         return array('status' => 'failed', 'err' => 'wrong_type');
     }
     $pic = Service::srv()->uploadPicByURL($aid, $url);

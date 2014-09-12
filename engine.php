@@ -67,7 +67,7 @@ function check_config() {
 	}
 }
 
-define('QCHAN_VER', 'lite-1.0pre build 20140905');
+define('QCHAN_VER', 'lite-1.0pre build 20140912');
 date_default_timezone_set('UTC');
 define('ABSPATH', __DIR__);
 

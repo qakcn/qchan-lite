@@ -514,7 +514,7 @@ class TTKClient{
 		$Token=$this->op_Token->dealParam($param)->createToken();
 		$data['Token']=$Token;
 		$data['fileurl']=$fileurl;
-		return empty($url)?$Token:$this->post($url,$data);
+		return empty($fileurl)?$Token:$this->post($url,$data);
 	}
 	/**
 	 * 对接口post数据

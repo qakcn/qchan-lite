@@ -22,6 +22,14 @@ class TTKService implements ServiceInterface {
         }
     }
     
+    public function getToken($aid, $method) {
+    	if($method=='file') {
+    		return $this->tietuku->uploadFile($aid);
+    	}else if($method=='url') {
+    		return $this->tietuku->uploadFromWeb($aid);
+    	}
+    }
+    
         //上传文件
     public function uploadPicByFile($aid, $file,$filename=null) {
         if(is_null($filename)) {
@@ -51,7 +59,7 @@ class TTKService implements ServiceInterface {
                 'show_url' => $al['s_url'],
                 'width' => (int)$al['width'],
                 'height' => (int)$al['height'],
-                'name' => basename($file)
+                'name' => $url
             );
         }else {
             return false;
