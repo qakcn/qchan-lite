@@ -6,19 +6,13 @@ class TTKService implements ServiceInterface {
         $this->tietuku = new MyTieTuKu($accesskey, $secretkey);
     }
 
-    public function formatAlbumName($year=null, $month=null) {
+    public function formatAlbumName($prefix, $year=null, $month=null) {
         if(is_null($year) && is_null($month)) {
-             $prefix=str_replace(
-                array('d','D','j','l','N','S','w','z','W','F',
-                'm','M','n','r','L','o','Y','y','a','A','B','g',
-                'G','h','H','i','e','I','O','P','T','Z','c','r','U'),
-                array('\d','\D','\j','\l','\N','\S','\w','\z','\W','\F',
-                '\m','\M','\n','\r','\L','\o','\Y','\y','\a','\A','\B','\g',
-                '\G','\h','\H','\i','\e','\I','\O','\P','\T','\Z','\c','\r','\U'),
-            ALBUM_PREFIX);
-            return date($prefix . '_Ym');
+            return $prefix.'_'.date('Ym');
+        }else if (is_null($year) xor is_null($month)) {
+        	return false;
         }else {
-            return ALBUM_PREFIX.'_'.$year.$month;
+            return $prefix.'_'.$year.$month;
         }
     }
     

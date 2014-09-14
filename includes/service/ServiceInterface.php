@@ -29,5 +29,7 @@ interface ServiceInterface {
     public function getPicsInAlbum($aid, $page);
 
     //获取相册名的date函数格式化字符串
-    public function formatAlbumName();
+    public function formatAlbumName($prefix, $year=null, $month=null);
+    
+    public function getToken($aid, $method);
 }
