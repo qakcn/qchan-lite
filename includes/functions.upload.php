@@ -2,10 +2,17 @@
 
 // Setup path for upload
 function set_album() {
-    $album_name=Service::srv()->formatAlbumName();
-    $id = Service::srv()->getAlbumByName($album_name);
-    if($id===false) {
-        $id = Service::srv()->createAlbum($album_name);
+	switch ALBUM_STRATEGY {
+		case 'monthly':
+    		$album_name=Service::srv()->formatAlbumName(ALBUM_PREFIX);
+    		$id = Service::srv()->getAlbumByName($album_name);
+    		if($id===false) {
+        		$id = Service::srv()->createAlbum($album_name);
+    		}
+    		break;
+    	case 'single':
+    		$id = SINGLE_ALBUM;
+    		break;
     }
     return $id;
 }
