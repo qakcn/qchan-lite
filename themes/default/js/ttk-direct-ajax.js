@@ -1,8 +1,5 @@
 /* 贴图库直接上传的JS文件 */
 
-
-
-
 function ttk_get_token(method,callback) {
 	var xhr = new XMLHttpRequest();
 	

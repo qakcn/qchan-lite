@@ -17,6 +17,9 @@
 	"Drag and drop files here":
 	"ここにファイルをドラッグ＆ドロップ",
 
+	"Only works with IE 10+ and other mordern browser":
+	"このページは、IE10+及び他の現代のブラウザーでのみ動作します",
+
 	"Normal":
 	"ノーマルアップロード",
 
@@ -27,10 +30,13 @@
 	"アップロード開始",
 
 	"Close":
-	"終了",
+	"キャンセル",
 
 	"Select Files":
 	"ファイルを選択してください",
+
+	"Your browser doesn't support Drag and drop upload":
+	"お使いのブラウザーはドラッグ＆ドロップのアップロードの方をサポートしない",
 
 	"Please put URLs here, one URL per line, with leading 'http://'":
 	"URL（&quot;http://&quot;を含む）は、1行に1つずつ入力してください",
@@ -128,7 +134,7 @@
 	"Selected":
 	"選択した",
 
-	" File(s) Selected":
+	" Files Selected":
 	"ファイルを選択した",
 
 	"Original File":
@@ -149,35 +155,8 @@
 	"Click to view large version":
 	"元の画像を見せるために、クリックして",
 
-	"Management":
-	"管理",
-
-	"Please Login":
-	"ログインください",
-
-	"Admin Name":
-	"管理人ID",
-
-	"Password":
-	"パスワード",
-
-	"Login":
-	"ログイン",
-
-	"Admin Name is empty!":
-	"管理人IDは空です！",
-
-	"Password is empty!":
-	"パスワードは空です！",
-
-	"Admin Name is incorrect!":
-	"管理人IDは誤ったです！",
-
-	"Password is incorrect!":
-	"パスワードは誤ったです！",
-
-	"This site is powered by Qchan, a light-weight image hosting program. Version: ":
-	"本站由轻量级图床程序Qchan强力驱动。版本：",
+	"This site is powered by <a target=\"_blank\" href=\"%s\">Qchan %s</a>":
+	"このウェブサイトは、<a target=\"_blank\" href=\"%s\">Qchan %s</a>の使用して運営しました",
 
 	"Agreement":
 	"使用条款",

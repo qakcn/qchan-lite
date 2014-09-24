@@ -6,9 +6,10 @@ function theme_path() {
 
 function load_theme($results=null) {
 	require_once ABSPATH.'/'.theme_path().'functions.php';
-	if (isset($_GET['page'])) {
-		if(file_exists(ABSPATH . '/' . theme_path().'page-'.$_GET['page'].'.php')) {
-			require_once ABSPATH . '/' . theme_path().'page-'.$_GET['page'].'.php';
+	$page=is_page();
+	if ($page) {
+		if(file_exists(ABSPATH . '/' . theme_path().'page-'.$page.'.php')) {
+			require_once ABSPATH . '/' . theme_path().'page-'.$page.'.php';
 		}else {
 			return_404();
 		}
@@ -17,17 +18,17 @@ function load_theme($results=null) {
 	}
 }
 
+function is_page() {
+	return isset($_GET['page'])?$_GET['page']:false;
+}
+
 function load_header() {
 	require_once ABSPATH.'/'.theme_path().'header.php';
 }
 
 function load_footer() {
-    if(defined('DIRECT_AJAX') && DIRECT_AJAX) {
-        if(SERVICE=='tietuku') {
-            echo '<script type="application/javascript" src="'.get_url().theme_path().'ttk-direct-ajax.js"></script>';
-        }
-    
-    }
+	if(DIRECT_AJAX) {
+		echo '<script type="application/javascript" src="<?=get_url().theme_path() ?>js/ttk-direct-ajax.js"></script>';
+	}
 	require_once ABSPATH.'/'.theme_path().'footer.php';
 }
-
