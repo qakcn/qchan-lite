@@ -21,8 +21,8 @@ define('COPYRIGHT', '所有未声明版权图片均需在<a rel="license" href="
 // 服务设置
 define('SERVICE', 'tietuku'); // 服务提供商：目前仅支持'tietuku'（贴图库）
 define('ALBUM_STRATEGY', 'single'); // 相册使用策略，'single'所有照片存入一个相册，'monthly'每个月一个相册
-define('SINGLE_ALBUM', 0); // 'single‘策略所使用的相册ID
-define('ALBUM_PREFIX', 'qchan'); // 'monthly'策略的相册前缀
+define('SINGLE_ALBUM', 0); // 'single‘策略所使用的相册ID，设置为'monthly'策略时无效
+define('ALBUM_PREFIX', 'qchan'); // 'monthly'策略的相册前缀，设置为'single'策略时无效
 define('DIRECT_AJAX', false); // 设置为true时直接上传到服务提供商，不经过本程序的服务器
 
 // 贴图库API设置
