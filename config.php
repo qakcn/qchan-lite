@@ -1,7 +1,7 @@
 <?php
 
 // 界面设置
-define('UI_LANG', 'zh-cn'); //设置界面默认语言
+define('UI_LANG', 'zh-CN'); //设置界面默认语言
 define('UI_THEME', 'default'); //设置界面默认主题
 
 // 站点信息

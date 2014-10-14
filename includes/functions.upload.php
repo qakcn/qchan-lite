@@ -4,17 +4,17 @@
 function set_album() {
 	switch (ALBUM_STRATEGY) {
 		case 'monthly':
-    		$album_name=Service::srv()->formatAlbumName(ALBUM_PREFIX);
-    		$id = Service::srv()->getAlbumByName($album_name);
-    		if($id===false) {
-        		$id = Service::srv()->createAlbum($album_name);
-    		}
-    		break;
-    	case 'single':
-    		$id = SINGLE_ALBUM;
-    		break;
-    }
-    return $id;
+			$album_name=Service::srv()->formatAlbumName(ALBUM_PREFIX);
+			$id = Service::srv()->getAlbumByName($album_name);
+			if($id===false) {
+				$id = Service::srv()->createAlbum($album_name);
+			}
+			break;
+		case 'single':
+			$id = SINGLE_ALBUM;
+			break;
+	}
+	return $id;
 }
 
 function get_token($method) {
@@ -23,77 +23,87 @@ function get_token($method) {
 }
 
 function set_pic_size($width_orig, $height_orig) {
-    $height = 200;
-    $width = 1000;
-    if($height_orig <= $height && $width_orig <= $width) {
-        $return['width'] = $width_orig;
-        $return['height'] = $height_orig;
-    }else{
-        $ratio_orig = $width_orig/$height_orig;
-        if ($width/$height > $ratio_orig) {
-            $width = $height*$ratio_orig;
-        }else {
-            $height = $width/$ratio_orig;
-        }
-        $return['width'] = $width;
-		$return['height'] = $height;
-    }
-    return $return;
+	$width = $height = 200;
+	$ratio_orig = $width_orig/$height_orig;
+	
+	$exlong = ($ratio_orig < 0.33 || $ratio_orig > 3);
+	$extiny = ($width_orig < 67 || $height_orig < 67);
+
+	if($height_orig <= $height && $width_orig <= $width || $extiny || ($exlong && ($height_orig <= $height ||  $width_orig <= $width))) {
+		$return['width'] = $width_orig;
+		$return['height'] = $height_orig;
+	}else{
+		if ($ratio_orig < 0.33 || $ratio_orig >= 1 && $ratio_orig <= 3) {
+			$height = $width / $ratio_orig;
+		}else if($ratio_orig >= 0.33 && $ratio_orig < 1 || $ratio_orig > 3) {
+			$width = $height * $ratio_orig;
+		}
+	}
+	$return['width'] = $width;
+	$return['height'] = $height;
+	$return['exlong'] = $exlong?'long':'';
+	$return['extiny'] = $extiny?'tiny':'';
+
+	return $return;
 }
 
 function url_handler() {
-    $aid = set_album();
-    $url = $_POST['url'];
-    $qid = $_POST['qid'];
-    if(!preg_match('/^\s*https?:\/\/.+$/', $url)) {
-        return array('status' => 'failed', 'err' => 'wrong_type');
-    }
-    $pic = Service::srv()->uploadPicByURL($aid, $url);
-    if($pic === false) {
-        return array('status' => 'failed', 'err' => 'write_prohibited');
-    }else {
-        $pic_size = set_pic_size($pic['width'], $pic['height']);
-        return array(
-            'qid'=> $qid,
-            'status' => 'success',
-            'path' => $pic['orig_url'],
-            'thumb' => $pic['thumb_url'],
-            'name' => $pic['name'],
-            'width' => $pic_size['width'],
-            'height' => $pic_size['height']
-        );
-    }
+	$aid = set_album();
+	$url = $_POST['url'];
+	$qid = $_POST['qid'];
+	if(!preg_match('/^\s*https?:\/\/.+$/', $url)) {
+		return array('status' => 'failed', 'err' => 'wrong_type');
+	}
+	$pic = Service::srv()->uploadPicByURL($aid, $url);
+	if($pic === false) {
+		return array('status' => 'failed', 'err' => 'write_prohibited');
+	}else {
+		$pic_size = set_pic_size($pic['width'], $pic['height']);
+		return array(
+			'qid'=> $qid,
+			'status' => 'success',
+			'path' => $pic['orig_url'],
+			'thumb' => $pic['thumb_url'],
+			'name' => $pic['name'],
+			'width' => $pic_size['width'],
+			'height' => $pic_size['height'],
+			'exlong' => $pic_size['exlong'],
+			'extiny' => $pic_size['extiny']
+		);
+	}
 }
 
 function file_handler() {
-    $aid = set_album();
-    $files = $_FILES['files'];
-    $results=array();
-    
-    foreach($files['error'] as $key => $error) {
-        $qid=isset($_POST['qid'])?$_POST['qid']:0;
-        $filename = $files['name'][$key];
-        
-        if($error==UPLOAD_ERR_OK) {
-            $temp = $files['tmp_name'][$key];
-            $pic = Service::srv()->uploadPicByFile($aid, $temp, $filename);
-            if($pic === false) {
-                $result = array('status' => 'failed', 'err' => 'write_prohibited');
-            }else {
-                $pic_size = set_pic_size($pic['width'], $pic['height']);
-                $result = array(
-                    'qid'=>$qid,
-                    'status' => 'success',
-                    'path' => $pic['orig_url'],
-                   'thumb' => $pic['thumb_url'],
-                   'name' => $filename,
-                   'width' => $pic_size['width'],
-                    'height' => $pic_size['height']
-                );
-            }
-        }else {
-            $result=array('qid'=>$qid);
-            switch($error) {
+	$aid = set_album();
+	$files = $_FILES['files'];
+	$results=array();
+	
+	foreach($files['error'] as $key => $error) {
+		$qid=isset($_POST['qid'])?$_POST['qid']:0;
+		$filename = $files['name'][$key];
+		
+		if($error==UPLOAD_ERR_OK) {
+			$temp = $files['tmp_name'][$key];
+			$pic = Service::srv()->uploadPicByFile($aid, $temp, $filename);
+			if($pic === false) {
+				$result = array('status' => 'failed', 'err' => 'write_prohibited');
+			}else {
+				$pic_size = set_pic_size($pic['width'], $pic['height']);
+				$result = array(
+					'qid'=>$qid,
+					'status' => 'success',
+					'path' => $pic['orig_url'],
+					'thumb' => $pic['thumb_url'],
+					'name' => $filename,
+					'width' => $pic_size['width'],
+					'height' => $pic_size['height'],
+					'exlong' => $pic_size['exlong'],
+					'extiny' => $pic_size['extiny']
+				);
+			}
+		}else {
+			$result=array('qid'=>$qid);
+			switch($error) {
 				case UPLOAD_ERR_INI_SIZE:
 					$result['status'] = 'failed';
 					$result['err'] = 'php_upload_size_limit';
@@ -119,10 +129,10 @@ function file_handler() {
 					$result['err'] = 'write_prohibited';
 					break;
 			}
-        }
-        array_push($results, $result);
-    }
-    return $results;
+		}
+		array_push($results, $result);
+	}
+	return $results;
 }
 
 function file_mime_type($file) {
