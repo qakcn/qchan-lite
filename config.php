@@ -23,7 +23,7 @@ define('SERVICE', 'tietuku'); // 服务提供商：目前仅支持'tietuku'（�
 define('ALBUM_STRATEGY', 'single'); // 相册使用策略，'single'所有照片存入一个相册，'monthly'每个月一个相册
 define('SINGLE_ALBUM', 0); // 'single‘策略所使用的相册ID，ALBUM_STRATEGY设置为'monthly'时无效
 define('ALBUM_PREFIX', 'qchan'); // 'monthly'策略的相册前缀，ALBUM_STRATEGY设置为'single'时无效
-define('DIRECT_AJAX', false); // 设置为true时直接上传到服务提供商，不经过本程序的服务器
+define('DIRECT_AJAX', true); // 设置为true时直接上传到服务提供商，不经过本程序的服务器
 
 // 贴图库API设置
 // 下面两个Key请到[贴图库开放平台](http://open.tietuku.com)->(登录后)[管理中心]->[密钥]获取

@@ -28,7 +28,7 @@ function load_header() {
 
 function load_footer() {
 	if(DIRECT_AJAX) {
-		echo '<script type="application/javascript" src="<?=get_url().theme_path() ?>js/ttk-direct-ajax.js"></script>';
+		echo '<script type="application/javascript" src="'.get_url().theme_path().'js/ttk-direct-ajax.js"></script>';
 	}
 	require_once ABSPATH.'/'.theme_path().'footer.php';
 }
