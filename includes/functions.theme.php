@@ -27,8 +27,13 @@ function load_header() {
 }
 
 function load_footer() {
-	if(DIRECT_AJAX) {
-		echo '<script type="application/javascript" src="'.get_url().theme_path().'js/ttk-direct-ajax.js"></script>';
-	}
 	require_once ABSPATH.'/'.theme_path().'footer.php';
+}
+
+function embed_script() {
+	if(DIRECT_AJAX) {
+		return '<script type="application/javascript" src="'.get_url().'js/upload-ttk-direct.js"></script>';
+	}else {
+		return '<script src="'.get_url().'js/upload.js" type="application/javascript"></script>';
+	}
 }
