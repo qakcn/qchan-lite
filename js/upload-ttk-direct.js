@@ -234,8 +234,6 @@ var qchan=function(){
 	};
 	
 	that.form_upload = function(formele) {
-		formele.method = 'post';
-		formele.action = 'index.php';
 		formele.submit();
 	}
 	

@@ -6,127 +6,17 @@ if (!defined('INDEX_RUN') && !defined('API_RUN') &&  !defined('MANAGE_RUN')) {
 	exit('This file must be loaded in flow.');
 }
 
-// Check if config.php is correct 
-function check_config() {
-	if (!(
-		defined('UI_LANG') &&
-		preg_match('/[a-z]{2,3}(-[A-Z]{2})?|zh-Han[ts]/', UI_LANG)
-	)) {
-		exit('UI_LANG set incorrectly.');
-	}
-	if (!(
-		defined('UI_THEME') &&
-		file_exists(ABSPATH . '/themes/' . UI_THEME)
-	)) {
-		exit('UI_THEME set incorrectly.');
-	}
-	if(!(
-		defined('SITE_TITLE') &&
-		is_string(SITE_TITLE)
-	)) {
-		exit('SITE_TITLE set incorrectly.');
-	}
-	if(!(
-		defined('SITE_DESCRIPTION') &&
-		is_string(SITE_DESCRIPTION)
-	)) {
-		exit('SITE_DESCRIPTION set incorrectly.');
-	}
-	if(!(
-		defined('SITE_KEYWORDS') &&
-		is_string(SITE_KEYWORDS)
-	)) {
-		exit('SITE_KEYWORDS set incorrectly.');
-	}
-	if(!(
-		defined('ADMIN_EMAIL') &&
-		preg_match('/(\w+\.)*\w+@(\w+\.)+[A-Za-z]+/', ADMIN_EMAIL)
-	)) {
-		exit('ADMIN_EMAIL set incorrectly.');
-	}
-	if(!(
-		defined('MAIN_SITE') &&
-		is_bool(MAIN_SITE)
-	)) {
-		exit('MAIN_SITE set incorrectly.');
-	}else if(MAIN_SITE) {
-		if(!(
-			defined('MAIN_SITE_NAME') &&
-			is_string(MAIN_SITE_NAME)
-		)) {
-			exit('MAIN_SITE_NAME set incorrectly.');
-		}
-		if(!(
-			defined('MAIN_SITE_LOGO') &&
-			is_string(MAIN_SITE_LOGO)
-		)) {
-			exit('MAIN_SITE_LOGO set incorrectly.');
-		}
-		if(!(
-			defined('MAIN_SITE_URL') &&
-			preg_match('/^https?:\/\/[a-zA-Z0-9_\-.]+(\/.*)?$/', MAIN_SITE_URL)
-		)) {
-			exit('MAIN_SITE_URL set incorrectly.');
-		}
-	}
-	if(!(
-		defined('COPYRIGHT') &&
-		is_string(COPYRIGHT)
-	)) {
-		exit('COPYRIGHT set incorrectly.');
-	}
-	if(!(
-		defined('SERVICE') &&
-		SERVICE == 'tietuku'
-	)) {
-		exit('SERVICE set incorrectly.');
-	}else if(SERVICE == 'tietuku') {
-		if(!(
-			defined('TIETUKU_ACCESSKEY') &&
-			preg_match('/^[0-9a-f]{40}$/', TIETUKU_ACCESSKEY)
-		)) {
-			exit('TIETUKU_ACCESSKEY set incorrectly.');
-		}
-		if(!(
-			defined('TIETUKU_SECRETKEY') &&
-			preg_match('/^[0-9a-f]{40}$/', TIETUKU_ACCESSKEY)
-		)) {
-			exit('TIETUKU_SECRETKEY set incorrectly.');
-		}
-	}
-	if(!(
-		defined('ALBUM_STRATEGY') &&
-		(ALBUM_STRATEGY == 'single' || ALBUM_STRATEGY == 'monthly')
-	)) {
-		exit('ALBUM_STRATEGY set incorrectly.');
-	}else if(ALBUM_STRATEGY == 'single') {
-		if(!(
-			defined('SINGLE_ALBUM') &&
-			is_int(SINGLE_ALBUM) &&
-			SINGLE_ALBUM != 0
-		)) {
-			exit('SINGLE_ALBUM set incorrectly.');
-		}
-	}else if(ALBUM_STRATEGY == 'monthly') {
-		if(!(
-			defined('ALBUM_PREFIX') &&
-			is_string(SALBUM_PREFIX)
-		)) {
-			exit('ALBUM_PREFIX set incorrectly.');
-		}
-	}
-	if(!(
-		defined('DIRECT_AJAX') &&
-		is_bool(DIRECT_AJAX)
-	)) {
-		exit('DIRECT_AJAX set incorrectly.');
-	}
+if (version_compare(phpversion(), '5.3.0', '<')) {
+	exit('This program need PHP > 5.3.0');
 }
 
-define('QCHAN_VER', 'lite-1.0pre build 20140912');
+define('QCHAN_VER', 'lite-1.0pre build 20150126');
 define('QCHAN_URL', 'https://github.com/qakcn/qchan-lite');
 date_default_timezone_set('UTC');
 define('ABSPATH', __DIR__);
+
+/* load core functions */
+require_once ABSPATH.'/includes/functions.common.php';
 
 if(!is_writable(ABSPATH . '/')) {
 	exit(ABSPATH.' is not writable.');
@@ -154,7 +44,6 @@ define('SUPPORT_TYPE', 'jpg|jpeg|jpe|jfif|jfi|jif|gif|png|svg');
 header("\x58\x2D\x51\x63\x68\x61\x6E\x2D\x49\x6E\x66\x6F\x3A\x20\x51\x63\x68\x61\x6E\x20\x69\x73\x20\x61\x6E\x20\x69\x6D\x61\x67\x65\x20\x68\x6F\x73\x74\x69\x6E\x67\x20\x66\x72\x65\x65\x77\x61\x72\x65\x2C\x20\x69\x73\x20\x64\x65\x76\x65\x6C\x6F\x70\x65\x64\x20\x62\x79\x20\x51\x75\x61\x64\x72\x61\x20\x53\x74\x75\x64\x69\x6F\x2C\x20\x61\x6E\x64\x20\x70\x75\x62\x6C\x69\x73\x68\x65\x64\x20\x75\x6E\x64\x65\x72\x20\x47\x50\x4C\x76\x33\x2E");
 
 /* Load functions */
-require_once ABSPATH.'/includes/functions.common.php';
 require_once ABSPATH.'/includes/functions.language.php';
 require_once ABSPATH.'/includes/functions.theme.php';
 require_once ABSPATH.'/includes/functions.upload.php';

@@ -2,7 +2,7 @@
 /**
  * PHP SDK for tietuku.com 
  * 
- * @author Tears <i@ltteam.cn>
+ * @author Tears <i@ltteam.cn>, qakcn <qakcnyn@gmail.com>
  */
 
 /**
@@ -11,7 +11,7 @@
  * 生成机制说明请大家参考贴图库开放平台文档：{@link http://open.tietuku.com/doc#safe-token}
  *
  * @package TieTuKu
- * @author Tears
+ * @author Tears, qakcn
  * @version 1.0
  */
 class TieTuKuToken{
@@ -464,14 +464,13 @@ class TTKClient{
 	 * @param array $file 上传的文件。
 	 * @return string 如果$file!=null 返回请求接口的json数据否则只返回Token
 	 */
-	function uploadFile($aid,$file=null){
+	function uploadFile($aid,$file=null,$filename=null){
 		$url = $this->upload_host;
 		$param['deadline'] = time()+$this->timeout;
 		$param['aid'] = $aid;
-		$param['from'] = 'file';
 		$Token=$this->op_Token->dealParam($param)->createToken();
 		$data['Token']=$Token;
-		$data['file']='@'.$file;
+		$data['file']='@'.$file.(empty($filename)?'':(';filename='.$filename));
 		return empty($file)?$Token:$this->post($url,$data);
 	}
 	/**
@@ -488,11 +487,12 @@ class TTKClient{
 		if(is_array($_FILES[$filename]['tmp_name'])){
 			foreach ($_FILES[$filename]['tmp_name'] as $k => $v) {
 				if(!empty($v)){
-					$res[]=json_decode($this->uploadFile($aid,$v));
+					$userfile=$_FILES[$filename]['name'][$k];
+					$res[]=json_decode($this->uploadFile($aid,$v,$userfile));
 				}
 			}
 		}else{
-			$res=json_decode($this->uploadFile($aid,$_FILES[$filename]['tmp_name']));
+			$res=json_decode($this->uploadFile($aid,$_FILES[$filename]['tmp_name'],$_FILES[$filename]['name']));
 		}
 		return json_encode($res);
 	}
